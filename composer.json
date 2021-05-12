@@ -1,5 +1,5 @@
 {
-    "name": "novalnet/novalnet-payment",
+    "name": "novalnet1/novalnet-payment",
     "description": "PCI Compliant, seamless integration with the various types of payment and payment-related services integrated into one unique platform",
     "version": "v12.0.0",
     "type": "shopware-platform-plugin",
