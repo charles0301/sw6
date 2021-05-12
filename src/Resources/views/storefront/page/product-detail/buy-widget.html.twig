@@ -1,0 +1,67 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{% block page_product_detail_tax %}
+    {{ parent() }}
+    <span> {{ "NovalnetPayment.text.instalmentProductPage1"|trans }} </span><a class="instalment_link" id="instalment_link" href="#"> {{ "NovalnetPayment.text.instalmentProductPage2"|trans }} </a>
+		<div class="card card-tabs">
+			<div class="card-header instalment-tab-navigation">
+				<ul class="nav nav-tabs instalment-tab-navigation-list"
+                        id="instalment-tabs"
+                        role="tablist"
+                        style="border-bottom:none;">
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           id="instalment-invoice-tab"
+                           data-toggle="tab"
+                           data-offcanvas-tabs="true"
+                           href="#instalment-invoice-tab-pane"
+                           role="tab"
+                           aria-controls="instalment-invoice-tab-pane"
+                           aria-selected="true">
+							<span>{{ "NovalnetPayment.text.instalmentProductInvoiceHeading"|trans|sw_sanitize }}</span>
+                        </a>
+                    </li>
+                                
+                    <li class="nav-item">
+						<a class="nav-link"
+                           id="review-tab"
+                           data-toggle="tab"
+                           data-offcanvas-tabs="true"
+                           href="#review-tab-pane"
+                           role="tab"
+                           aria-controls="review-tab-pane"
+                           aria-selected="true">
+                            <span>{{ "NovalnetPayment.text.instalmentProductSepaHeading"|trans|sw_sanitize }}</span>
+                        </a>
+                    </li>
+                </ul>
+			</div>
+		</div>
+		
+		<div class="tab-content">
+			<div class="tab-pane fade show"
+				 id="instalment-invoice-tab-pane"
+				 role="tabpanel"
+				 aria-labelledby="instalment-invoice-tab">
+				
+				<table class="table table-sm table-bordered">
+					<thead>
+						<tr>
+							<th>Instalment via Invoice</th>
+							<th>Instalment via Direct Debit SEPA</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1 Cycles</td>
+							<td>1 Cycles</td>
+						</tr>
+					</tbody>
+				</table>
+					
+			</div>
+		</div>
+{% endblock %}
+
+{% block page_product_detail_tax_novalnet %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
+
+{% block page_checkout_confirm %}
+{{ parent() }}
+    <input type="hidden" value={{ path('frontend.checkout.removePaymentToken') }} id="cardRemoveUrl">
+    <input type="hidden" value="{{ "NovalnetPayment.text.removeConfirmMessage"|trans }}" id="removeConfirmMessage">
+{% endblock %}
+
+{% block page_checkout_confirm_errors %}
+    {{ parent() }}
+    {% set errorMessage = null|getNovalnetErrorMessage %}
+    {% if errorMessage is not empty %}
+		<div
+			role="alert"
+			class="alert alert-danger alert-has-icon">
+			{% sw_icon 'blocked' %}
+			<div class="alert-content-container">
+				<div class="alert-content" id="novalnet-error">
+					{{errorMessage}}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
+
+{% block page_checkout_confirm_form_submit %}
+
+    {% set hidePayment = 'NO' %}
+    {% set invoiceGuaranteeAvailable = context|isGuaranteeAvailable(page,shopware.config.NovalnetPayment.settings, 'novalnetinvoiceguarantee') %}
+    {% set invoiceInstalmentAvailable = context|isGuaranteeAvailable(page,shopware.config.NovalnetPayment.settings, 'novalnetinvoiceinstalment') %}
+    {% set sepaGuaranteeAvailable = context|isGuaranteeAvailable(page,shopware.config.NovalnetPayment.settings, 'novalnetsepaguarantee') %}
+    {% set sepaInstalmentAvailable = context|isGuaranteeAvailable(page,shopware.config.NovalnetPayment.settings, 'novalnetsepainstalment') %}
+
+
+    {% if 'Novalnet' in context.paymentMethod.handlerIdentifier %}
+        {% if 'NovalnetInvoiceGuarantee' in context.paymentMethod.handlerIdentifier and invoiceGuaranteeAvailable == 'NO' %}
+            {% set hidePayment = 'YES' %}
+        {% endif %}
+
+        {% if 'NovalnetSepaGuarantee' in context.paymentMethod.handlerIdentifier and sepaGuaranteeAvailable == 'NO' %}
+            {% set hidePayment = 'YES' %}
+        {% endif %}
+
+        {% if 'NovalnetInvoiceInstalment' in context.paymentMethod.handlerIdentifier and invoiceInstalmentAvailable == 'NO' %}
+            {% set hidePayment = 'YES' %}
+        {% endif %}
+
+        {% if 'NovalnetSepaInstalment' in context.paymentMethod.handlerIdentifier and sepaInstalmentAvailable == 'NO' %}
+            {% set hidePayment = 'YES' %}
+        {% endif %}
+    {% endif %}
+
+    {% if hidePayment == 'YES' %}
+        <button id="confirmFormSubmit"
+                class="btn btn-primary btn-block btn-lg"
+                form="confirmOrderForm"
+                disabled
+                type="submit">
+            {{ "checkout.confirmSubmit"|trans|sw_sanitize }}
+        </button>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+
